@@ -38,31 +38,35 @@
             </div>
   
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <form action="{{route('message')}}" method="POST" id="php-email-form">
+                @csrf
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Your Name</label>
-                    <input type="text" name="name" class="form-control" id="name" required>
+                    <input type="text" name="name" value="{{old('name')}}" class="form-control" id="name">
+                    <span class="badge bg-danger">{{$errors->first('name')}}</span>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="name">Your Email</label>
-                    <input type="email" class="form-control" name="email" id="email" required>
+                    <input type="email" class="form-control" name="email" value="{{old('email')}}" id="email">
+                    <span class="badge bg-danger">{{$errors->first('email')}}</span>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="name">Subject</label>
-                  <input type="text" class="form-control" name="subject" id="subject" required>
+                  <input type="text" class="form-control" name="subject" value="{{old('subject')}}" id="subject">
+                  <span class="badge bg-danger">{{$errors->first('subject')}}</span>
                 </div>
                 <div class="form-group">
                   <label for="name">Message</label>
-                  <textarea class="form-control" name="message" rows="10" required></textarea>
+                  <textarea class="form-control" name="message" rows="10">{{old('message')}}</textarea>
+                  <span class="badge bg-danger">{{$errors->first('message')}}</span>
                 </div>
-                <div class="my-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                
+                <div class="text-center">
+                  <button type="submit">Send Message</button>
                 </div>
-                <div class="text-center"><button type="submit">Send Message</button></div>
+
               </form>
             </div>
   

@@ -23,9 +23,12 @@ use App\Http\Controllers\admin\PricingDetailController;
 use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\FaqAccordionController;
 use App\Http\Controllers\admin\ContactController;
+use App\Http\Controllers\admin\InboxController;
 
 use App\Http\Controllers\HomeController;
 
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +46,11 @@ Route::group(['prefix'=>'admin'], function(){
     Route::match(['get', 'post'], 'register', function(){
         return redirect('/admin/login');
     });
+});
+
+Route::get('/email', function(){
+    Mail::to('email@email.com')->send(new TestMail());
+    return new TestMail();
 });
 
 Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
@@ -66,9 +74,12 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
     Route::resource('/faq', FAQController::class);
     Route::resource('/faqaccordion', FaqAccordionController::class);
     Route::resource('/contact', ContactController::class);
+    Route::resource('/box', InboxController::class);
     Route::get('/icon', [IconController::class, 'index'])->name('icon');
 });
 
+
+Route::post('/message', [HomeController::class, 'message'])->name('message');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

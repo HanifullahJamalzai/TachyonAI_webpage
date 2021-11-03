@@ -77,6 +77,45 @@
   <!-- Template Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
 
+      <!--common script for all pages-->
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+      <script>
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        })
+  
+        @if(Session::has('success'))
+        Swal.fire({
+        icon: 'success',
+        title: "{{ Session::get('success')}}"
+        })
+        @endif
+  
+        @if(Session::has('errors'))
+              Swal.fire({
+              icon: 'error',
+              // timer: 6000,
+              title: 'Woopsie Daisy',
+              html:
+              'Looks like Something went completely wrong don\'t worry. It can happen to the best of us, and it just happened to you.'+
+              '  Check the ' +
+              '<a href="#contact"><b>Contact</b></a> '+ 'Form please!,',
+              // text: 'Looks like Something went completely don\'t worry. It can happen to the best of us, and it just happened to you.',
+            })
+        @endif
+      </script>
+  
+      {{-- end common scripts for all pages --}}
+      
 </body>
 
 </html>
