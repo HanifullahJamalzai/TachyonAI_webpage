@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Str;
 use Session;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 use App\Models\Hero;
 use App\Models\Client;
@@ -85,6 +87,8 @@ class HomeController extends Controller
 
         $input = $request->all();
         Inbox::create($input);
+
+        Mail::to($request->email)->send(new TestMail());
 
         Session::flash('success', 'Hi! We wanted to let you know that we have received your message.We’ll get back to you as soon as we can.');
         return redirect()->back();

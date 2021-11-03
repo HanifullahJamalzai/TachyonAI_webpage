@@ -11,7 +11,7 @@ class Inbox extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'email', 'subject', 'message', 'slug'];
+    protected $fillable = ['name', 'email', 'subject', 'message', 'status', 'slug'];
 
 
     public function getRouteKeyName()

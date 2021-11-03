@@ -16,6 +16,7 @@ class CreateInboxesTable extends Migration
         Schema::create('inboxes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->BOOLEAN('status')->default(0)->nullable();
             $table->string('email');
             $table->string('subject');
             $table->text('message');

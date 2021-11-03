@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Inbox;
+use Session;
 class InboxController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class InboxController extends Controller
     public function index()
     {
         return view('admin.box.index')
-                    ->with('emails', Inbox::orderBy('id', 'desc')->get())
+                    ->with('msgs', Inbox::orderBy('id', 'desc')->get())
                     ->with('page', 'Inbox');
     }
 
@@ -72,7 +73,12 @@ class InboxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inbox = Inbox::where('slug',$id)->first();
+        $input = $request->all();
+        $input['status'] = 1;
+        $inbox->update($input);
+        Session::flash('success', 'Message has been putted in Seen-Messages List');
+        return redirect()->back();
     }
 
     /**
@@ -83,6 +89,8 @@ class InboxController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $inbox = Inbox::where('slug',$id)->first();
+        $inbox->delete();
+        Session::flash('success', 'Message has successfully deleted');
     }
 }
