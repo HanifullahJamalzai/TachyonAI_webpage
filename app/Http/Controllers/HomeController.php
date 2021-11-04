@@ -8,6 +8,11 @@ use Str;
 use Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use App\Notifications\TestNotification;
+use Illuminate\Support\Facades\Notification;
+use Exception;
+use Stripe;
+
 
 use App\Models\Hero;
 use App\Models\Client;
@@ -88,10 +93,53 @@ class HomeController extends Controller
         $input = $request->all();
         Inbox::create($input);
 
+        // Mail 
         Mail::to($request->email)->send(new TestMail());
 
-        Session::flash('success', 'Hi! We wanted to let you know that we have received your message.We’ll get back to you as soon as we can.');
-        return redirect()->back();
+        // SMS
+        try {
+  
+            $basic  = new \Nexmo\Client\Credentials\Basic(getenv("NEXMO_KEY"), getenv("NEXMO_SECRET"));
+            $client = new \Nexmo\Client($basic);
+  
+            $receiverNumber = "+93779636360";
+            $message = "This is testing msg from Hanifullah Jamlzai and S/one has message you";
+  
+            $message = $client->message()->send([
+                'to' => $receiverNumber,
+                'from' => 'Vonage APIs',
+                'text' => $message
+            ]);
+
+            // Success msg and redirect   
+            Session::flash('success', 'Hi! We wanted to let you know that we have received your message.We’ll get back to you as soon as we can.');
+            return redirect()->back();
+              
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        }
+
+
+    }
+
+    public function handleGet($price)
+    {
+        return view('stripe-payment')
+                    ->with('price',$price);
+    }
+    public function handlePost(Request $request)
+    {   
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Charge::create ([
+                "amount" => 100 * 150,
+                "currency" => "inr",
+                "source" => $request->stripeToken,
+                "description" => "Making test payment." 
+        ]);
+  
+        Session::flash('success', 'Payment has been successfully processed.');
+          
+        return back();
 
     }
 }

@@ -82,6 +82,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
 Route::post('/message', [HomeController::class, 'message'])->name('message');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/stripe-payment/{price}', [App\Http\Controllers\HomeController::class, 'handleGet'])->name('stripe-payment.handleGet');
+Route::post('/stripe-payment', [App\Http\Controllers\HomeController::class, 'handlePost'])->name('stripe.payment');
 
 Route::get('/', [HomeController::class, 'index']);

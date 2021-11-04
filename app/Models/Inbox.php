@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Support\Facades\Notification;
 
 class Inbox extends Model
 {
@@ -18,5 +19,11 @@ class Inbox extends Model
     {
         return 'slug';
     }
+
+    // public function routeNotificationForNexmo($notification)
+    // {
+    //     return '+93779636360';
+    //     // return '+93744759724';
+    // }
 
 }
