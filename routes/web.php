@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\FaqAccordionController;
 use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\admin\InboxController;
+use App\Http\Controllers\admin\ProfileController;
 
 use App\Http\Controllers\HomeController;
 
@@ -75,6 +76,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
     Route::resource('/faqaccordion', FaqAccordionController::class);
     Route::resource('/contact', ContactController::class);
     Route::resource('/box', InboxController::class);
+    Route::resource('/profile', ProfileController::class);
     Route::get('/icon', [IconController::class, 'index'])->name('icon');
 });
 

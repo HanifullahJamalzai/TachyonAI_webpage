@@ -59,15 +59,6 @@
             <div class="col-md-8">
               <h5 class="card-title float-left">Client data table</h5>
             </div>
-
-            {{-- Plus icon --}}
-            {{-- <div class="col-md-4  float-right iconslist">
-                <div class="icon">
-                  <i class="bi bi-plus-circle-fill"></i>
-                </div>
-            </div> --}}
-            {{-- end plus icon --}}
-            
           </section>
 
           <!-- Table with hoverable rows -->

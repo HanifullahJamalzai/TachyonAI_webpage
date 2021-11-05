@@ -191,7 +191,7 @@
       </li><!-- End Inbox Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed {{ $page == 'Profile' ? 'active': '' }}" href="{{route('profile.index')}}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
