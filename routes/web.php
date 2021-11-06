@@ -44,7 +44,8 @@ use Illuminate\Support\Facades\Mail;
 
 
 Route::group(['prefix'=>'admin'], function(){
-    Auth::routes();
+    Auth::routes(['verify'=>true]);
+    // Auth::routes();
     Route::match(['get', 'post'], 'register', function(){
         return redirect('/admin/login');
     });

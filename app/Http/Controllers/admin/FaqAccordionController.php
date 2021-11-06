@@ -12,6 +12,12 @@ use App\Http\Requests\FaqRequest;
 
 class FaqAccordionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *

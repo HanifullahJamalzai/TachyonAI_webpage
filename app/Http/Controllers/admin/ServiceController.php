@@ -9,6 +9,11 @@ use App\Models\Service;
 use Session;
 class ServiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *

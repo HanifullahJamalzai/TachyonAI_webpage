@@ -79,7 +79,7 @@ class HomeController extends Controller
 
     }
 
-
+    // message closure method
     public function message(request $request)
     {
         $request->validate([
@@ -121,12 +121,14 @@ class HomeController extends Controller
 
 
     }
-
+    
+    // stripe payment
     public function handleGet($price)
     {
         return view('stripe-payment')
                     ->with('price',$price);
     }
+
     public function handlePost(Request $request)
     {   
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));

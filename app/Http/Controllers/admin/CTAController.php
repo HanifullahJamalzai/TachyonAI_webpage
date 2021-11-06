@@ -8,6 +8,12 @@ use App\Models\CTA;
 use Session;
 class CTAController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *

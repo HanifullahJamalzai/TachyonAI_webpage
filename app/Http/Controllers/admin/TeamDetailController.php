@@ -17,6 +17,11 @@ use App\Http\Requests\TeamRequest;
 
 class TeamDetailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *

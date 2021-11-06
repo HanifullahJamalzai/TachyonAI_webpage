@@ -9,6 +9,12 @@ use App\Models\Inbox;
 use Session;
 class InboxController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -93,7 +99,7 @@ class InboxController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
-        
+
         $inbox = Inbox::where('slug',$id)->first();
         $inbox->delete();
         Session::flash('success', 'Message has successfully deleted');
