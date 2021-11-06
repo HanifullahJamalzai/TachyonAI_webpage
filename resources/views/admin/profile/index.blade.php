@@ -115,11 +115,13 @@
                         <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                             <!-- Profile Edit Form -->
-                            <form>
+                            <form method="POST" action="{{route('profile.update',$profile[0]->slug)}}">
+                                @csrf
+                                @method('PUT')
                                 <div class="row mb-3">
-                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                    <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                     <div class="col-md-8 col-lg-9">
-                                    <input name="name" type="text" class="form-control" id="fullName" value="{{$profile[0]->name}}">
+                                    <input name="name" type="text" class="form-control" id="name" value="{{$profile[0]->name}}">
                                     </div>
                                 </div>
 
@@ -144,28 +146,21 @@
                                 <div class="row mb-3">
                                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                     <div class="col-md-8 col-lg-9">
-                                    <input name="phone" type="text" class="form-control" id="Phone" value="{{$profile[0]->phone}}">
+                                    <input name="phone" type="number" class="form-control" id="Phone" value="{{$profile[0]->phone}}">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                    <label for="password" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                                     <div class="col-md-8 col-lg-9">
-                                    <input name="password" type="password" class="form-control" id="currentPassword">
+                                    <input name="password" type="password" class="form-control" id="password">
                                     </div>
                                 </div>
     
                                 <div class="row mb-3">
-                                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                    <label for="confirm_password" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                                     <div class="col-md-8 col-lg-9">
-                                    <input name="newpassword" type="password" class="form-control" id="newPassword">
-                                    </div>
-                                </div>
-    
-                                <div class="row mb-3">
-                                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                                    <div class="col-md-8 col-lg-9">
-                                    <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                    <input name="confirm_password" type="password" class="form-control" id="confirm_password">
                                     </div>
                                 </div>
 
@@ -321,21 +316,21 @@
             </div>
 
             <div class="modal-body">
-                <form class="row g-3" method="POST" action="{{route('profile.update', $user)}}">
+                <form class="row g-3" method="POST" action="{{route('profile.update', $user->slug)}}">
                 @csrf
                 @method('PUT')
         
                     <div class="row mb-3">
                         <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                         <div class="col-md-8 col-lg-9">
-                        <input name="name" value="{{$user->name}}" type="text" class="form-control" id="name">
+                            <input name="name" value="{{$user->name}}" type="text" class="form-control" id="name">
                         </div>
                     </div>
         
                     <div class="row mb-3">
                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                         <div class="col-md-8 col-lg-9">
-                        <input name="email" value="{{$user->email}}" type="email" class="form-control" id="Email">
+                            <input name="email" value="{{$user->email}}" type="email" class="form-control" id="Email">
                         </div>
                     </div>
         
@@ -353,7 +348,7 @@
                     <div class="row mb-3">
                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                         <div class="col-md-8 col-lg-9">
-                        <input name="phone" value="{{$user->phone}}" type="number" class="form-control" id="Phone">
+                            <input name="phone" value="{{$user->phone}}" type="number" class="form-control" id="Phone">
                         </div>
                     </div>
         
@@ -365,15 +360,15 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="company" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
+                        <label for="confirm_password" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
                         <div class="col-md-8 col-lg-9">
-                            <input name="password_confirmation" type="password" class="form-control rounded-right" id="password">
+                            <input name="confirm_password" type="password" class="form-control rounded-right" id="confirm_password">
                         </div>
                     </div>
         
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
 

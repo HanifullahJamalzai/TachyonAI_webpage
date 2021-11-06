@@ -48,7 +48,7 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|min:8|max:255|confirmed',
             'phone' => 'min:9|max:12',
         ]);
 
@@ -93,7 +93,28 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::where('slug', $id)->first();
+        $this->validate($request,[
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|email',
+            'phone' => 'min:9|max:12',
+        ]);
+
+        $request->merge(['slug' => Str::slug($request->email)]);
+
+        if($request->password || $request->confirm_password){
+            $request->validate([
+                'password' => 'required|min:8|max:255',
+                'confirm_password' => 'required|same:password|min:8'
+            ]);
+            $input = $request->all();
+            $input['password'] = bcrypt($request->password);
+        }
+        $input = $request->except('password');
+        $user->update($input);
+
+        Session::flash('success', 'User profile has been updated successfully');
+        return redirect()->route('profile.index');
     }
 
     /**

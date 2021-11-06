@@ -26,6 +26,7 @@ use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\admin\InboxController;
 use App\Http\Controllers\admin\ProfileController;
 
+use App\Http\Controllers\MailChimpController;
 use App\Http\Controllers\HomeController;
 
 use App\Mail\TestMail;
@@ -77,6 +78,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
     Route::resource('/contact', ContactController::class);
     Route::resource('/box', InboxController::class);
     Route::resource('/profile', ProfileController::class);
+    Route::get('/send-mail-using-mailchimp', [MailChimpController::class, 'index']);
     Route::get('/icon', [IconController::class, 'index'])->name('icon');
 });
 
