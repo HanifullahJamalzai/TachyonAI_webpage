@@ -49,15 +49,18 @@
                 <h5 class="card-title float-left">Profile:</h5>
             </div>
 
-            {{-- Plus icon --}}
-            <div class="col-md-4 iconslist">
-                {{-- <div class="icon"> --}}
-                    <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
-                    <i class="bi bi-plus-lg"></i>
-                    </a>
-                {{-- </div> --}}
-            </div>
-            {{-- end plus icon --}}
+            @can('isAdmin')
+                {{-- Plus icon --}}
+                <div class="col-md-4 iconslist">
+                    {{-- <div class="icon"> --}}
+                        <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
+                        <i class="bi bi-plus-lg"></i>
+                        </a>
+                    {{-- </div> --}}
+                </div>
+                {{-- end plus icon --}}
+            @endcan
+
             </section>
 
 
@@ -79,10 +82,11 @@
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                         </li>
-
+                        @cannot('isGuest')
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-list">Profiles List</button>
                         </li>
+                        @endcannot
 
                         </ul>
                         <div class="tab-content pt-2">
@@ -131,7 +135,8 @@
                                     <input name="email" type="email" class="form-control" id="Email" value="{{$profile[0]->email}}">
                                     </div>
                                 </div>
-
+                                @can('isAdmin')
+                                    
                                 <div class="row mb-3">
                                     <label for="company" class="col-md-4 col-lg-3 col-form-label">User type</label>
                                     <div class="col-md-8 col-lg-9" class="form-control">
@@ -142,6 +147,8 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                @endcan
 
                                 <div class="row mb-3">
                                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
@@ -171,6 +178,8 @@
 
                         </div>
 
+                        @cannot('isGuest')
+                            
                         {{-- profile list table --}}
                         <div class="tab-pane fade profile-edit pt-3" id="profile-list">
                             <!-- Table with hoverable rows -->
@@ -181,7 +190,9 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Action</th>
+                                    @can('isAdmin')
+                                        <th scope="col">Action</th>
+                                    @endcan
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -192,16 +203,18 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->user_type}}</td>
-                                        <td>
-                                            <div class="card-body">
-                                                <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$user->slug}}">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                                <a href="{{route('profile.edit', $user)}}" class="btn btn-info p-1 w-1 h-1" data-bs-toggle="modal" data-bs-target="#profileModal{{$user->slug}}">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                        @can('isAdmin')
+                                            <td>
+                                                <div class="card-body">
+                                                    <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$user->slug}}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-info p-1 w-1 h-1" data-bs-toggle="modal" data-bs-target="#profileModal{{$user->slug}}">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        @endcan
                                     </tr>
                            @endforeach
                                 </tbody>
@@ -213,6 +226,7 @@
                         </div>
                         {{-- end profile list table --}}
 
+                        @endcannot
                         </div><!-- End Bordered Tabs -->
 
                     </div>
@@ -229,108 +243,33 @@
   </section>
 
 
-{{-- extra large modal  --}}
-<div class="modal fade" id="largeModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" data-bs-backdrop="false">
-      <div class="modal-content">
-        
-        <div class="modal-header mb-2">
-          <h5 class="modal-title fw-bold">New Profile:</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+@can('isAdmin')
 
-        <div class="modal-body">
-            <form class="row g-3" method="POST" action="{{route('profile.store')}}">
-              @csrf
-    
-                <div class="row mb-3">
-                    <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                    <div class="col-md-8 col-lg-9">
-                    <input name="name" type="text" class="form-control" id="name">
-                    </div>
-                </div>
-    
-                <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                    <div class="col-md-8 col-lg-9">
-                    <input name="email" type="email" class="form-control" id="Email">
-                    </div>
-                </div>
-    
-                <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">User type</label>
-                    <div class="col-md-8 col-lg-9">
-                        <select name="user_type" class="form-control">
-                            <option value="author">Author</option>
-                            <option value="admin">Admin</option>
-                            <option value="guest">Guest</option>
-                        </select>
-                    </div>
-                </div>
-    
-                <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                    <div class="col-md-8 col-lg-9">
-                    <input name="phone" type="number" class="form-control" id="Phone">
-                    </div>
-                </div>
-    
-                <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Password</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control rounded-right" id="password">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="password_confirmation" type="password" class="form-control rounded-right" id="password">
-                    </div>
-                </div>
-    
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
-
-        </div>
-  
-      </div>
-    </div>
-</div>
-<!--End Large Modal-->
-  
-
-{{-- Profile large modal  --}}
-@foreach ($users as $user)
-
-    <div class="modal fade" id="profileModal{{$user->slug}}" tabindex="-1">
+    {{-- extra large modal  --}}
+    <div class="modal fade" id="largeModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" data-bs-backdrop="false">
         <div class="modal-content">
             
             <div class="modal-header mb-2">
-            <h5 class="modal-title fw-bold">Edit Profile:</h5>
+            <h5 class="modal-title fw-bold">New Profile:</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
-                <form class="row g-3" method="POST" action="{{route('profile.update', $user->slug)}}">
+                <form class="row g-3" method="POST" action="{{route('profile.store')}}">
                 @csrf
-                @method('PUT')
         
                     <div class="row mb-3">
                         <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                         <div class="col-md-8 col-lg-9">
-                            <input name="name" value="{{$user->name}}" type="text" class="form-control" id="name">
+                        <input name="name" type="text" class="form-control" id="name">
                         </div>
                     </div>
         
                     <div class="row mb-3">
                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                         <div class="col-md-8 col-lg-9">
-                            <input name="email" value="{{$user->email}}" type="email" class="form-control" id="Email">
+                        <input name="email" type="email" class="form-control" id="Email">
                         </div>
                     </div>
         
@@ -338,9 +277,9 @@
                         <label for="company" class="col-md-4 col-lg-3 col-form-label">User type</label>
                         <div class="col-md-8 col-lg-9">
                             <select name="user_type" class="form-control">
-                                <option value="author" {{$profile[0]->user_type == 'author' ? 'selected' : ''}}>Author</option>
-                                <option value="admin" {{$profile[0]->user_type == 'admin' ? 'selected' : ''}}>Admin</option>
-                                <option value="guest" {{$profile[0]->user_type == 'guest' ? 'selected' : ''}}>Guest</option>
+                                <option value="author">Author</option>
+                                <option value="admin">Admin</option>
+                                <option value="guest">Guest</option>
                             </select>
                         </div>
                     </div>
@@ -348,7 +287,7 @@
                     <div class="row mb-3">
                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                         <div class="col-md-8 col-lg-9">
-                            <input name="phone" value="{{$user->phone}}" type="number" class="form-control" id="Phone">
+                        <input name="phone" type="number" class="form-control" id="Phone">
                         </div>
                     </div>
         
@@ -360,27 +299,104 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="confirm_password" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
+                        <label for="company" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
                         <div class="col-md-8 col-lg-9">
-                            <input name="confirm_password" type="password" class="form-control rounded-right" id="confirm_password">
+                            <input name="password_confirmation" type="password" class="form-control rounded-right" id="password">
                         </div>
                     </div>
         
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
 
             </div>
-
+    
         </div>
         </div>
     </div>
-@endforeach
-<!--End Profile Modal-->
+    <!--End Large Modal-->
+  
 
-        
+    {{-- Profile large modal  --}}
+    @foreach ($users as $user)
+
+        <div class="modal fade" id="profileModal{{$user->slug}}" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" data-bs-backdrop="false">
+            <div class="modal-content">
+                
+                <div class="modal-header mb-2">
+                <h5 class="modal-title fw-bold">Edit Profile:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="row g-3" method="POST" action="{{route('profile.update', $user->slug)}}">
+                    @csrf
+                    @method('PUT')
+            
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="name" value="{{$user->name}}" type="text" class="form-control" id="name">
+                            </div>
+                        </div>
+            
+                        <div class="row mb-3">
+                            <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="email" value="{{$user->email}}" type="email" class="form-control" id="Email">
+                            </div>
+                        </div>
+            
+                        <div class="row mb-3">
+                            <label for="company" class="col-md-4 col-lg-3 col-form-label">User type</label>
+                            <div class="col-md-8 col-lg-9">
+                                <select name="user_type" class="form-control">
+                                    <option value="author" {{$profile[0]->user_type == 'author' ? 'selected' : ''}}>Author</option>
+                                    <option value="admin" {{$profile[0]->user_type == 'admin' ? 'selected' : ''}}>Admin</option>
+                                    <option value="guest" {{$profile[0]->user_type == 'guest' ? 'selected' : ''}}>Guest</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <div class="row mb-3">
+                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="phone" value="{{$user->phone}}" type="number" class="form-control" id="Phone">
+                            </div>
+                        </div>
+            
+                        <div class="row mb-3">
+                            <label for="company" class="col-md-4 col-lg-3 col-form-label">Password</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="password" type="password" class="form-control rounded-right" id="password">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="confirm_password" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="confirm_password" type="password" class="form-control rounded-right" id="confirm_password">
+                            </div>
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+            </div>
+        </div>
+    @endforeach
+    <!--End Profile Modal-->
+
+@endcan        
   
 @endsection
 
@@ -407,8 +423,8 @@
                 console.log('hi after');
                 
                 var id = $(this).attr('id');
-                var url = '{{ route("pricingdetail.destroy", ":plan") }}';
-                url = url.replace(':plan', id);
+                var url = '{{ route("profile.destroy", ":user") }}';
+                url = url.replace(':user', id);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

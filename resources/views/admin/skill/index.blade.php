@@ -21,7 +21,9 @@
         <div class="card-body">
           <!-- Vertical Form -->
           <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($skill)) action="{{route('skill.update', $skill)}}" @else action="{{route('skill.store')}}" @endif >
+          @cannot('isGuest')
             @csrf
+          @endcannot
             @if(isset($skill))
             @method('PUT')
             @endif
@@ -47,13 +49,17 @@
               <span class="text-danger text-sm error-text">{{$errors->first('photo')}}</span>
               <input type="file" name="photo">
             </div>
-            <div class="col-12">
-              @if(isset($skill))
-                <button type="submit" class="btn btn-primary">Update</button>
-              @else
-                <button type="submit" class="btn btn-primary">Submit</button>
-              @endif
-            </div>
+            @cannot('isGuest')
+              
+              <div class="col-12">
+                @if(isset($skill))
+                  <button type="submit" class="btn btn-primary">Update</button>
+                @else
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                @endif
+              </div>
+            
+            @endcannot
           </form><!-- Vertical Form -->
   
         </div>

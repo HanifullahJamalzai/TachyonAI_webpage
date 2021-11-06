@@ -21,7 +21,9 @@
         <div class="card p-4">
 
         <form class="row g-3" method="POST" @if(isset($contact)) action="{{route('contact.update', $contact)}}" @else  action="{{route('contact.store')}}" @endif>
-            @csrf
+            @cannot('isGuest')
+              @csrf
+            @endcannot
             @if(isset($contact))
             @method('PUT')
             @endif
@@ -55,11 +57,14 @@
               </div>
               <span style="font-size: 12px" style="font-size: 12px" >{{$errors->first('description')}}</span>
 
-              @if (isset($contact))
-              <button type="submit" class="btn btn-primary">Update</button>
-              @else
-              <button type="submit" class="btn btn-primary">Submit</button>
+              @cannot('isGuest')
+                @if (isset($contact))
+                <button type="submit" class="btn btn-primary">Update</button>
+                @else
+                <button type="submit" class="btn btn-primary">Submit</button>
               @endif
+              @endcannot
+              
             </div>
             
             </div>

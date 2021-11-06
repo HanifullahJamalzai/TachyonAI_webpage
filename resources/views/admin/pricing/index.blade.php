@@ -23,7 +23,9 @@
           <div class="card-body">
             <!-- Vertical Form -->
             <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($pricing)) action="{{route('pricing.update', $pricing)}}" @else action="{{route('pricing.store')}}" @endif >
-              @csrf
+              @cannot('isGuest')
+                @csrf
+              @endcannot
               @if(isset($pricing))
               @method('PUT')
               @endif
@@ -36,15 +38,18 @@
                 </textarea>
               </div>
 
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">
-                  @if(isset($pricing))
-                    Update
-                  @else
-                    Submit
-                  @endif
-                </button>
-              </div>
+              @cannot('isGuest')
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">
+                    @if(isset($pricing))
+                      Update
+                    @else
+                      Submit
+                    @endif
+                  </button>
+                </div>
+              @endcannot
+
             </form><!-- Vertical Form -->
     
           </div>

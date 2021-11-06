@@ -39,7 +39,8 @@
             <div class="col-md-8 float-end">
               <h5 class="card-title float-left">Services:</h5>
             </div>
-
+            
+            @cannot('isGuest')
             {{-- Plus icon --}}
             <div class="col-md-4 iconslist">
                 {{-- <div class="icon"> --}}
@@ -49,7 +50,7 @@
                 {{-- </div> --}}
             </div>
             {{-- end plus icon --}}
-            
+            @endcannot
           </section>
 
           <!-- Table with hoverable rows -->
@@ -61,7 +62,9 @@
                 <th scope="col">Title</th>
                 <th scope="col" colspan="3">Description</th>
                 <th scope="col">Created at</th>
-                <th scope="col">Action</th>
+                @cannot('isGuest')
+                  <th scope="col">Action</th>
+                @endcannot
               </tr>
             </thead>
             <tbody>
@@ -70,7 +73,9 @@
               <div class="collapse" id="{{$service->slug}}">
                 <div class="card card-body">
                   <form class="row g-3" method="POST" action="{{route('servicebox.update', $service)}}">
-                    @csrf
+                    @cannot('isGuest')
+                      @csrf
+                    @endcannot
                     @method('PUT')
                     <div class="modal-body">
             
@@ -95,11 +100,12 @@
                       </div>
             
                     </div>
-            
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$service->slug}}" role="button" aria-expanded="false" aria-controls="{{$service->slug}}">Close</button>
-                      <button type="submit" class="btn btn-primary">Update Service</button>
-                    </div>
+                    @cannot('isGuest')
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$service->slug}}" role="button" aria-expanded="false" aria-controls="{{$service->slug}}">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Service</button>
+                      </div>
+                    @endcannot
                   </form>
                 </div>
               </div>
@@ -110,14 +116,16 @@
                   <td>{!!$service->title!!}</td>
                   <td colspan="3">{!!$service->description!!}</td>
                   <td>{{$service->created_at}}</td>
-                  <td>
-                    <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$service->slug}}">
-                    <i class="bi bi-trash"></i>
-                    </a>
-                    <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$service->slug}}" role="button" aria-expanded="false" aria-controls="{{$service->slug}}">
-                      <i class="bi bi-pencil-square"></i>
-                    </a>
-                  </td>
+                  @cannot('isGuest')
+                    <td>
+                      <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$service->slug}}">
+                      <i class="bi bi-trash"></i>
+                      </a>
+                      <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$service->slug}}" role="button" aria-expanded="false" aria-controls="{{$service->slug}}">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+                    </td>
+                  @endcannot
                 </tr>
               @endforeach 
 

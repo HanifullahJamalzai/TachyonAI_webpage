@@ -23,7 +23,9 @@
           <div class="card-body">
             <!-- Vertical Form -->
             <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($hero)) action="{{route('hero.update', $hero)}}" @else action="{{route('hero.store')}}" @endif >
-              @csrf
+              @cannot('isGuest')
+                @csrf
+              @endcannot
               @if(isset($hero))
               @method('PUT')
               @endif
@@ -54,7 +56,8 @@
                 <label for="photo" class="form-label">Photo</label>
                 <input type="file" name="photo" class="form-control" value="{{$hero->photo ?? ''}}" id="photo">
               </div>
-
+              @cannot('isGuest')
+                
               <div class="col-12">
                 <button type="submit" class="btn btn-primary">
                   @if(isset($hero))
@@ -64,6 +67,9 @@
                   @endif
                 </button>
               </div>
+
+              @endcannot
+
             </form><!-- Vertical Form -->
     
           </div>

@@ -17,38 +17,40 @@
   <section class="section">
     <div class="row">
 
-      <div class="card">
-        <div class="card-body pt-4">
+      @cannot('isGuest')
+        <div class="card">
+          <div class="card-body pt-4">
 
-          <!-- Multi Columns Form -->
-          <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($skill)) action="{{route('skillprogress.update', $skill)}}" @else  action="{{route('skillprogress.store')}}" @endif>
-            @csrf
-            @if(isset($skill))
-            @method('PUT')
-            @endif
-
-            <div class="col-md-4">
-              <input type="text" name="progressbar_title" class="form-control" @if(isset($skill)) value="{{$skill->progressbar_title}}" @endif  placeholder="Progress bar title">
-              <span class="text-dark" style="font-size: 12px"><span class="text-danger"> {{$errors->first('progressbar_title')}}</span>
-            </div>
-
-            <div class="col-md-4">
-              <input type="number" name="percentage" @if(isset($skill)) value="{{$skill->percentage}}" @endif class="form-control" placeholder="0 - 100 ">
-              <span class="text-dark" style="font-size: 12px"><span class="text-danger"> {{$errors->first('percentage')}}</span>
-            </div>
-            
-            <div class="col-md-4">
-              @if (isset($skill))
-              <button type="submit" class="btn btn-info">Update</button>
-              @else
-              <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- Multi Columns Form -->
+            <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($skill)) action="{{route('skillprogress.update', $skill)}}" @else  action="{{route('skillprogress.store')}}" @endif>
+              @csrf
+              @if(isset($skill))
+              @method('PUT')
               @endif
-              <button type="reset" class="btn btn-secondary">Reset</button>
-            </div>
-          </form>
-          <!-- End Multi Columns Form -->
+
+              <div class="col-md-4">
+                <input type="text" name="progressbar_title" class="form-control" @if(isset($skill)) value="{{$skill->progressbar_title}}" @endif  placeholder="Progress bar title">
+                <span class="text-dark" style="font-size: 12px"><span class="text-danger"> {{$errors->first('progressbar_title')}}</span>
+              </div>
+
+              <div class="col-md-4">
+                <input type="number" name="percentage" @if(isset($skill)) value="{{$skill->percentage}}" @endif class="form-control" placeholder="0 - 100 ">
+                <span class="text-dark" style="font-size: 12px"><span class="text-danger"> {{$errors->first('percentage')}}</span>
+              </div>
+              
+              <div class="col-md-4">
+                @if (isset($skill))
+                <button type="submit" class="btn btn-info">Update</button>
+                @else
+                <button type="submit" class="btn btn-primary">Submit</button>
+                @endif
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+            </form>
+            <!-- End Multi Columns Form -->
+          </div>
         </div>
-      </div>
+      @endcannot
 
       <div class="card">
         <div class="card-body">
@@ -69,7 +71,9 @@
                 <th scope="col">Title</th>
                 <th scope="col">Percentage</th>
                 <th scope="col">Create Date</th>
-                <th scope="col">Action</th>
+                @cannot('isGuest')
+                  <th scope="col">Action</th>
+                @endcannot
               </tr>
             </thead>
             <tbody>
@@ -79,16 +83,18 @@
                   <td>{{$skill->progressbar_title}}</td>
                   <td>{{$skill->percentage}}</td>
                   <td>{{$skill->created_at->diffforhumans()}}</td>
-                  <td>
-                    <div class="card-body">
-                      <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$skill->slug}}">
-                        <i class="bi bi-trash"></i>
-                      </a>
-                      <a href="{{route('skillprogress.edit', $skill->slug)}}" class="btn btn-info p-1 w-1 h-1">
-                        <i class="bi bi-pencil-square"></i>
-                      </a>
-                    </div>
-                  </td>
+                  @cannot('isGuest')
+                    <td>
+                      <div class="card-body">
+                        <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$skill->slug}}">
+                          <i class="bi bi-trash"></i>
+                        </a>
+                        <a href="{{route('skillprogress.edit', $skill->slug)}}" class="btn btn-info p-1 w-1 h-1">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                      </div>
+                    </td>
+                  @endcannot
                 </tr>
               @endforeach
             </tbody>

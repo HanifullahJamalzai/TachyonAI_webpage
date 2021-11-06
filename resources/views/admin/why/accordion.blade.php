@@ -39,17 +39,17 @@
             <div class="col-md-8 float-end">
               <h5 class="card-title float-left">Why-Us Accordions</h5>
             </div>
-
-            {{-- Plus icon --}}
-            <div class="col-md-4 iconslist">
-                {{-- <div class="icon"> --}}
-                  <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
-                    <i class="bi bi-plus-lg"></i>
-                  </a>
-                {{-- </div> --}}
-            </div>
-            {{-- end plus icon --}}
-            
+            @cannot('isGuest')
+              {{-- Plus icon --}}
+              <div class="col-md-4 iconslist">
+                  {{-- <div class="icon"> --}}
+                    <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
+                      <i class="bi bi-plus-lg"></i>
+                    </a>
+                  {{-- </div> --}}
+              </div>
+              {{-- end plus icon --}}
+            @endcannot
           </section>
 
           <!-- Table with hoverable rows -->
@@ -59,7 +59,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Created at</th>
                 <th scope="col" colspan="10">Title</th>
-                <th scope="col">Action</th>
+                @cannot('isGuest')
+                  <th scope="col">Action</th>
+                @endcannot
               </tr>
             </thead>
             <tbody>
@@ -78,7 +80,9 @@
                         </h2>
                         <div id="{{$accordion->slug}}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
                           <form method="POST" action="{{route('whyusaccordion.update', $accordion->slug)}}">
-                            @csrf
+                            @cannot('isGuest')
+                              @csrf
+                            @endcannot
                             @method("PUT")
                             
                             <textarea name="title" id="ckeditor" class="ckeditor" cols="30">
@@ -88,19 +92,24 @@
                             <textarea name="description" id="ckeditor" class="ckeditor" cols="30" rows="10">
                               {{$accordion->description}}
                             </textarea>
-
-                            <button type="submit" class="btn btn-info w-100 px-2 mt-3 mb-1">Update</button>
+                            @cannot('isGuest')
+                              <button type="submit" class="btn btn-info w-100 px-2 mt-3 mb-1">Update</button>
+                            @endcannot
                           </form>
                         </div>
                       </div>
                     </div>
                   </td>
                   <td>
+                    @cannot('isGuest')
+                      
                     <div class="card-body">
                       <a href="#" class="btn btn-danger p-3 w-1 h-1 delete" id="{{$accordion->slug}}">
                         <i class="bi bi-trash"></i>
                       </a>
                     </div>
+                    
+                    @endcannot
                   </td>
                 </tr>
               @endforeach

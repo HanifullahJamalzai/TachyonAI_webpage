@@ -44,16 +44,18 @@
                   {{$about->description2 ?? ''}}
                 </textarea>
               </div>
-
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">
-                  @if(isset($about))
-                    Update
-                  @else
-                    Submit
-                  @endif
-                </button>
-              </div>
+              
+              @cannot('isGuest')
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">
+                    @if(isset($about))
+                      Update
+                    @else
+                      Submit
+                    @endif
+                  </button>
+                </div>
+              @endcannot
             </form><!-- Vertical Form -->
     
           </div>

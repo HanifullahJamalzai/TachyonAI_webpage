@@ -17,13 +17,17 @@
   <section class="section">
     <div class="row">
 
+      
+      @cannot('isGuest')
       <div class="card">
         <div class="card-body pt-4">
           {{-- <h5 class="card-title">Multi Columns Form</h5> --}}
 
           <!-- Multi Columns Form -->
           <form class="row g-3" method="POST" enctype="multipart/form-data" @if(isset($client)) action="{{route('client.update', $client)}}" @else  action="{{route('client.store')}}" @endif>
-            @csrf
+           @cannot('isGuest')
+           @csrf
+           @endcannot
             @if(isset($client))
             @method('PUT')
             @endif
@@ -37,6 +41,7 @@
               <input type="file" name="logo" @if(isset($client)) value="{{$client->logo}}" @endif class="form-control">
               <span class="text-dark" style="font-size: 12px"><span class="text-danger"> {{$errors->first('logo')}}</span>
             </div>
+            
             <div class="col-md-4">
               @if (isset($client))
               <button type="submit" class="btn btn-info">Update</button>
@@ -49,6 +54,7 @@
           <!-- End Multi Columns Form -->
         </div>
       </div>
+      @endcannot
 
       <div class="card">
         <div class="card-body">
@@ -69,7 +75,9 @@
                 <th scope="col">Logo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Create Date</th>
-                <th scope="col">Action</th>
+                @cannot('isGuest')
+                  <th scope="col">Action</th>
+                @endcannot
               </tr>
             </thead>
             <tbody>
@@ -82,16 +90,16 @@
                   <td>{{$client->name}}</td>
                   <td>{{$client->created_at->diffforhumans()}}</td>
                   <td>
-                    <div class="card-body">
-                      <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$client->slug}}">
-                        <i class="bi bi-trash"></i>
-                      </a>
-                      <a href="{{route('client.edit', $client)}}" class="btn btn-info p-1 w-1 h-1">
-                        <i class="bi bi-pencil-square"></i>
-                      </a>
-                      {{-- <button type="button" class="btn btn-danger w-3 h-3"><i class="bi bi-trash"></i></button> --}}
-                      {{-- <button type="button" class="btn btn-info w-3 h-3"><i class="bi bi-pencil-square"></i></button> --}}
-                    </div>
+                    @cannot('isGuest')
+                      <div class="card-body">
+                          <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$client->slug}}">
+                            <i class="bi bi-trash"></i>
+                          </a>
+                          <a href="{{route('client.edit', $client)}}" class="btn btn-info p-1 w-1 h-1">
+                            <i class="bi bi-pencil-square"></i>
+                          </a>
+                      </div>
+                    @endcannot
                   </td>
                 </tr>
               @endforeach

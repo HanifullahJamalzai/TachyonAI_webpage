@@ -21,7 +21,9 @@
         <div class="card-body">
           <!-- Vertical Form -->
           <form class="row g-3" method="POST" @if(isset($faq)) action="{{route('faq.update', $faq)}}" @else action="{{route('faq.store')}}" @endif >
-            @csrf
+            @cannot('isGuest')
+              @csrf
+            @endcannot  
             @if(isset($faq))
             @method('PUT')
             @endif
@@ -33,8 +35,9 @@
                 {{$faq->description ?? ''}}
               </textarea>
             </div>
-            
 
+            @cannot('isGuest')
+              
             <div class="col-12">
               @if(isset($faq))
                 <button type="submit" class="btn btn-primary">Update</button>
@@ -42,6 +45,8 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               @endif
             </div>
+            
+            @endcannot
           </form><!-- Vertical Form -->
   
         </div>

@@ -40,6 +40,7 @@
               <h5 class="card-title float-left">FAQ Accordions</h5>
             </div>
 
+            @cannot('isGuest')
             {{-- Plus icon --}}
             <div class="col-md-4 iconslist">
                 {{-- <div class="icon"> --}}
@@ -49,7 +50,8 @@
                 {{-- </div> --}}
             </div>
             {{-- end plus icon --}}
-            
+            @endcannot
+
           </section>
 
           <!-- Table with hoverable rows -->
@@ -59,7 +61,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Created at</th>
                 <th scope="col" colspan="10">Answer</th>
-                <th scope="col">Action</th>
+                @cannot('isGuest')
+                  <th scope="col">Action</th>
+                @endcannot
               </tr>
             </thead>
             <tbody>
@@ -81,7 +85,9 @@
                         </h2>
                         <div id="{{$faq->slug}}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
                           <form method="POST" action="{{route('faqaccordion.update', $faq->slug)}}">
-                            @csrf
+                            @cannot('isGuest')
+                              @csrf
+                            @endcannot
                             @method("PUT")
                             
                             <textarea name="question" id="ckeditor" class="ckeditor" cols="30">
@@ -99,11 +105,13 @@
                     </div>
                   </td>
                   <td>
-                    <div class="card-body">
-                      <a href="#" class="btn btn-danger p-3 w-1 h-1 delete" id="{{$faq->slug}}">
-                        <i class="bi bi-trash"></i>
-                      </a>
-                    </div>
+                    @cannot('isGuest')
+                      <div class="card-body">
+                        <a href="#" class="btn btn-danger p-3 w-1 h-1 delete" id="{{$faq->slug}}">
+                          <i class="bi bi-trash"></i>
+                        </a>
+                      </div>
+                    @endcannot
                   </td>
                 </tr>
               @endforeach
@@ -119,42 +127,44 @@
   </section>
 
 
+@cannot('isGuest')
   {{-- extra large modal  --}}
- <div class="modal fade" id="largeModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold">FAQs Section:</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal fade" id="largeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">FAQs Section:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form class="row g-3" method="POST" action="{{route('faqaccordion.store')}}">
+          @csrf
+
+          <div class="modal-body">
+
+            <div class="col-md-12">
+              <label for="inputName5" class="form-label fw-bold">Question:</label>
+              <textarea name="question" id="ckeditor" class="form-control ckeditor" cols="30" rows="1"></textarea>
+            </div>
+            
+            <div class="col-md-12">
+              <label for="inputName5" class="form-label fw-bold">Answer:</label>
+              <textarea name="answer" id="ckeditor" class="form-control ckeditor" cols="30" rows="2"></textarea>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add accordion</button>
+          </div>
+        </form>
       </div>
-
-      <form class="row g-3" method="POST" action="{{route('faqaccordion.store')}}">
-        @csrf
-
-        <div class="modal-body">
-
-          <div class="col-md-12">
-            <label for="inputName5" class="form-label fw-bold">Question:</label>
-            <textarea name="question" id="ckeditor" class="form-control ckeditor" cols="30" rows="1"></textarea>
-          </div>
-          
-          <div class="col-md-12">
-            <label for="inputName5" class="form-label fw-bold">Answer:</label>
-            <textarea name="answer" id="ckeditor" class="form-control ckeditor" cols="30" rows="2"></textarea>
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Add accordion</button>
-        </div>
-      </form>
     </div>
   </div>
-</div>
-<!--End Large Modal-->
+  <!--End Large Modal-->
+@endcannot
 
  {{-- end extra large modal --}}
   @endsection

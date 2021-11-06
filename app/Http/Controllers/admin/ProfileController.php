@@ -9,6 +9,7 @@ use App\Models\User;
 use Auth;
 use Str;
 use Session;
+use Gate;
 
 class ProfileController extends Controller
 {
@@ -125,6 +126,9 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('isAdmin');
+        $user = User::where('slug', $id)->first();
+        $user->delete();
+        Session::flash('success', 'Profile has been deleted successfully');
     }
 }

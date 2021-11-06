@@ -39,19 +39,21 @@
             <div class="col-md-8 float-end">
               <h5 class="card-title float-left">Portfolios:</h5>
             </div>
-
-            {{-- Plus icon --}}
-            <div class="col-md-4 iconslist">
-                {{-- <div class="icon"> --}}
-                  <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
-                    <i class="bi bi-plus-lg"></i>
-                  </a>
-                {{-- </div> --}}
-            </div>
-            {{-- end plus icon --}}
-            
+            @cannot('isGuest')
+              {{-- Plus icon --}}
+              <div class="col-md-4 iconslist">
+                  {{-- <div class="icon"> --}}
+                    <a  type="button" class="float-end plus-circle" id="plus-circle" data-bs-toggle="modal" data-bs-target="#largeModal">
+                      <i class="bi bi-plus-lg"></i>
+                    </a>
+                  {{-- </div> --}}
+              </div>
+              {{-- end plus icon --}}
+            @endcannot
           </section>
 
+          @cannot('isGuest')
+            
           <!-- Table with hoverable rows -->
             @foreach ($portfolios as $portfolio)
               
@@ -83,16 +85,18 @@
                         <input type="file" name="photo" id="">
                       </div>
                     </div>
-            
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$portfolio->slug}}" role="button" aria-expanded="false" aria-controls="{{$portfolio->slug}}">Close</button>
-                      <button type="submit" class="btn btn-primary">Update Portfolio</button>
-                    </div>
-                    
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" href="#{{$portfolio->slug}}" role="button" aria-expanded="false" aria-controls="{{$portfolio->slug}}">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Portfolio</button>
+                      </div>
+                   
                   </form>
                 </div>
               </div>
             @endforeach 
+          
+          @endcannot
+          
         </div>
       </div>
 
@@ -109,13 +113,16 @@
           <h6>{{$portfolio->title}}
           <span class="badge rounded-pill bg-primary">{{$portfolio->type}}</span>
         </h6>
-          
-          <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$portfolio->slug}}">
-            <i class="bi bi-trash"></i>
-          </a>
-          <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$portfolio->slug}}" role="button" aria-expanded="false" aria-controls="{{$portfolio->slug}}">
-            <i class="bi bi-pencil-square"></i>
-          </a>
+
+        @cannot('isGuest')
+            <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$portfolio->slug}}">
+              <i class="bi bi-trash"></i>
+            </a>
+            <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$portfolio->slug}}" role="button" aria-expanded="false" aria-controls="{{$portfolio->slug}}">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+        @endcannot
+
         </div>
       </div>
     </div> 
@@ -124,7 +131,8 @@
   </section>
         
   
-
+@cannot('isGuest')
+  
 {{-- extra large modal  --}}
  <div class="modal fade" id="largeModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
@@ -173,7 +181,7 @@
 </div>
 <!--End Large Modal-->
 
-
+@endcannot
 
  {{-- end extra large modal --}}
   @endsection

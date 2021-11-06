@@ -16,6 +16,7 @@ class InboxController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         return view('admin.box.index')
                     ->with('msgs', Inbox::orderBy('id', 'desc')->get())
                     ->with('page', 'Inbox');
@@ -73,6 +74,8 @@ class InboxController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('isAdmin');
+
         $inbox = Inbox::where('slug',$id)->first();
         $input = $request->all();
         $input['status'] = 1;
@@ -89,6 +92,8 @@ class InboxController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
+        
         $inbox = Inbox::where('slug',$id)->first();
         $inbox->delete();
         Session::flash('success', 'Message has successfully deleted');

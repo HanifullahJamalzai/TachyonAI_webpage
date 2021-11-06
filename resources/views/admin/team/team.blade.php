@@ -45,6 +45,7 @@
               <h5 class="card-title float-left">Teams:</h5>
             </div>
 
+            @cannot('isGuest')
             {{-- Plus icon --}}
             <div class="col-md-4 iconslist">
                 {{-- <div class="icon"> --}}
@@ -54,89 +55,93 @@
                 {{-- </div> --}}
             </div>
             {{-- end plus icon --}}
-            
+            @endcannot
+
           </section>
 
-          <!-- collapse rows -->
-           @foreach ($members as $member)
+          @cannot('isGuest')
+            <!-- collapse rows -->
+            @foreach ($members as $member)
+                
+                <div class="collapse" id="{{$member->slug}}">
+                  <div class="card card-body">
+
+                    <form class="row g-3" method="POST" action="{{route('teamdetail.update', $member)}}" enctype="multipart/form-data">
+                      @csrf
+                      @method('PUT')
+
+                      <div class="modal-body">
+                        <div class="row mb-3">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Full name:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="full_name" value="{{$member->full_name}}" class="form-control" id="inputText">
+                          </div>
+                        </div>
               
-              <div class="collapse" id="{{$member->slug}}">
-                <div class="card card-body">
-
-                  <form class="row g-3" method="POST" action="{{route('teamdetail.update', $member)}}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="modal-body">
-                      <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Full name:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="full_name" value="{{$member->full_name}}" class="form-control" id="inputText">
+                        <div class="row mb-3">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Position</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="position" value="{{$member->position}}" class="form-control" id="inputEmail">
+                          </div>
                         </div>
-                      </div>
-            
-                      <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Position</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="position" value="{{$member->position}}" class="form-control" id="inputEmail">
+              
+                        <div class="row mb-3">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Bio:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="bio" value="{{$member->bio}}" class="form-control" id="inputEmail">
+                          </div>
                         </div>
-                      </div>
-            
-                      <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label fw-bold">Bio:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="bio" value="{{$member->bio}}" class="form-control" id="inputEmail">
+              
+                        <div class="row mb-3">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Facebook link:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="fb" value="{{$member->fb ?? ''}}" class="form-control" id="inputPassword">
+                          </div>
                         </div>
-                      </div>
-            
-                      <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Facebook link:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="fb" value="{{$member->fb ?? ''}}" class="form-control" id="inputPassword">
+              
+                        <div class="row mb-3">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Twitter link:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="twitter" value="{{$member->twitter ?? ''}}" class="form-control" id="inputPassword">
+                          </div>
                         </div>
-                      </div>
-            
-                      <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Twitter link:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="twitter" value="{{$member->twitter ?? ''}}" class="form-control" id="inputPassword">
+                        
+                        <div class="row mb-3">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Instagram link:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="instagram" value="{{$member->instagram ?? ''}}" class="form-control" id="inputPassword">
+                          </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">LinkedIn link:</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="linkedin" value="{{$member->linkedin ?? ''}}" class="form-control" id="inputPassword">
+                          </div>
+                        </div>
+              
+                        <div class="row mb-3">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Photo:</label>
+                          <div class="col-sm-10">
+                            <input type="file" name="photo" value="{{$member->photo ?? ''}}" class="form-control" id="inputPassword">
+                          </div>
                         </div>
                       </div>
                       
-                      <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Instagram link:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="instagram" value="{{$member->instagram ?? ''}}" class="form-control" id="inputPassword">
-                        </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                       </div>
                       
-                      <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">LinkedIn link:</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="linkedin" value="{{$member->linkedin ?? ''}}" class="form-control" id="inputPassword">
-                        </div>
-                      </div>
-            
-                      <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label fw-bold">Photo:</label>
-                        <div class="col-sm-10">
-                          <input type="file" name="photo" value="{{$member->photo ?? ''}}" class="form-control" id="inputPassword">
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                    
-                  </form>
+                    </form>
 
+                  </div>
                 </div>
-              </div>
 
-           @endforeach 
+            @endforeach 
             
+          @endcannot
+
         </div>
       </div>
 
@@ -147,21 +152,24 @@
 
     @foreach ($members as $member)
 
-    <div class="col-lg-2 col-md-4 portfolio-item filter-app mb-2">
+    <div class="col-lg-2 col-md-4 portfolio-item filter-app m-2">
       <div class="card m-1" style="width: 10rem;">
         <img src="{{$member->photo ? asset('storage/team/thumbnails/'.$member->photo) : asset('admin_assets/img/dummy-200x200.png')}}" class="card-img-top" alt="...">
         <div class="card-body item-center">
-          <h6>{{$member->full_name}}
-          <span class="badge rounded-pill bg-primary">{{$member->position}}</span>
-        </h6>
-        <p>{!!$member->bio!!}</p>
+          <h6>{{$member->full_name}}</h6>
+          <p>{!!$member->bio!!}</p>
+          <span class="badge rounded-pill bg-primary mb-2">{{$member->position}}</span>
+          <br>
           
-          <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$member->slug}}">
-            <i class="bi bi-trash"></i>
-          </a>
-          <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$member->slug}}" role="button" aria-expanded="false" aria-controls="{{$member->slug}}">
-            <i class="bi bi-pencil-square"></i>
-          </a>
+          @cannot('isGuest')
+            <a href="#" class="btn btn-danger p-1 w-1 h-1 delete" id="{{$member->slug}}">
+              <i class="bi bi-trash"></i>
+            </a>
+            <a class="btn btn-info p-1 w-1 h-1" data-bs-toggle="collapse" href="#{{$member->slug}}" role="button" aria-expanded="false" aria-controls="{{$member->slug}}">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          @endcannot
+
         </div>
       </div>
     </div> 
@@ -171,7 +179,8 @@
   </section>
         
   
-
+@cannot('isGuest')
+  
 {{-- extra large modal  --}}
  <div class="modal fade" id="largeModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
@@ -250,6 +259,7 @@
 </div>
 <!--End Large Modal-->
 
+@endcannot
 
 
  {{-- end extra large modal --}}

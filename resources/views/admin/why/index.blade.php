@@ -42,18 +42,20 @@
                 {{$why->subtitle ?? ''}}
               </textarea>
             </div>
+            @cannot('isGuest')
+              <div class="col-12 ">
+                <span class="text-danger text-sm error-text">{{$errors->first('photo')}}</span>
+                <input type="file" name="photo">
+              </div>
+              <div class="col-12">
+                @if(isset($why))
+                  <button type="submit" class="btn btn-primary">Update</button>
+                @else
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                @endif
+              </div>
+            @endcannot
 
-            <div class="col-12 ">
-              <span class="text-danger text-sm error-text">{{$errors->first('photo')}}</span>
-              <input type="file" name="photo">
-            </div>
-            <div class="col-12">
-              @if(isset($why))
-                <button type="submit" class="btn btn-primary">Update</button>
-              @else
-                <button type="submit" class="btn btn-primary">Submit</button>
-              @endif
-            </div>
           </form><!-- Vertical Form -->
   
         </div>
