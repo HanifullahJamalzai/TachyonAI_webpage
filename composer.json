@@ -17,6 +17,7 @@
         "mailchimp/mailchimp": "^2.0",
         "nexmo/client": "^2.4",
         "nexmo/laravel": "^2.4",
+        "spatie/laravel-newsletter": "^4.10",
         "stripe/stripe-php": "^7.100"
     },
     "require-dev": {

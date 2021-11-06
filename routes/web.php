@@ -29,6 +29,9 @@ use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\MailChimpController;
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\SubscribeController;
+
+
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 /*
@@ -83,9 +86,8 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
     Route::get('/icon', [IconController::class, 'index'])->name('icon');
 });
 
-
+Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('subscribe');
 Route::post('/message', [HomeController::class, 'message'])->name('message');
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/stripe-payment/{price}', [App\Http\Controllers\HomeController::class, 'handleGet'])->name('stripe-payment.handleGet');
 Route::post('/stripe-payment', [App\Http\Controllers\HomeController::class, 'handlePost'])->name('stripe.payment');

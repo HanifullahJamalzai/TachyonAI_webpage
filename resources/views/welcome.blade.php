@@ -112,6 +112,22 @@
               // text: 'Looks like Something went completely don\'t worry. It can happen to the best of us, and it just happened to you.',
             })
         @endif
+
+        
+        @if(Session::has('subscribe'))
+        toast.fire({
+        icon: 'success',
+        title: "{{ Session::get('success')}}"
+        })
+        @endif
+        
+        @if(Session::has('subscribe_error'))
+        toast.fire({
+        icon: 'error',
+        title: "{{ Session::get('success')}}"
+        })
+        @endif
+
       </script>
   
       {{-- end common scripts for all pages --}}
