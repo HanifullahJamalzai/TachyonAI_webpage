@@ -34,6 +34,7 @@ use App\Models\Faq;
 use App\Models\FaqAccordion;
 use App\Models\Contact;
 use App\Models\Inbox;
+use App\Models\Comment;
 
 class HomeController extends Controller
 {
@@ -77,6 +78,15 @@ class HomeController extends Controller
                     ->with('contact', Contact::findOrFail(1))
                     ->with('Page', 'TachyonAI');
 
+    }
+    public function about()
+    {
+        return view('about-us')
+                    ->with('hero', Hero::findOrFail(1))
+                    ->with('contact', Contact::findOrFail(1))
+                    ->with('about', About::findOrFail(1))
+                    ->with('comments', Comment::orderBy('id', 'desc')->get())
+                    ->with('page', 'TachyonAI');
     }
 
     // message closure method

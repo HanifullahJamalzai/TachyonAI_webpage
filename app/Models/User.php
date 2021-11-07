@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\SocialUser;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -52,4 +54,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return 'slug';
     }
+
 }

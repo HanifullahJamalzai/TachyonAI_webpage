@@ -28,8 +28,10 @@ use App\Http\Controllers\admin\ProfileController;
 
 use App\Http\Controllers\MailChimpController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReplyController;
 
 
 use App\Mail\TestMail;
@@ -52,11 +54,6 @@ Route::group(['prefix'=>'admin'], function(){
     Route::match(['get', 'post'], 'register', function(){
         return redirect('/admin/login');
     });
-});
-
-Route::get('/email', function(){
-    Mail::to('email@email.com')->send(new TestMail());
-    return new TestMail();
 });
 
 Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
@@ -86,10 +83,24 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
     Route::get('/icon', [IconController::class, 'index'])->name('icon');
 });
 
-Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('subscribe');
-Route::post('/message', [HomeController::class, 'message'])->name('message');
+
+
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
 Route::get('/stripe-payment/{price}', [App\Http\Controllers\HomeController::class, 'handleGet'])->name('stripe-payment.handleGet');
 Route::post('/stripe-payment', [App\Http\Controllers\HomeController::class, 'handlePost'])->name('stripe.payment');
+Route::post('/message', [HomeController::class, 'message'])->name('message');
+Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('subscribe');
+Route::resource('/comment', CommentController::class);
+Route::resource('/reply', ReplyController::class);
 
-Route::get('/', [HomeController::class, 'index']);
+
+// Route::get('auth/facebook', [SocialController::class, 'facebookRedirect']);
+// Route::get('auth/facebook/callback', [SocialController::class, 'loginWithFacebook']);
+
+// Route::get('auth/google', [SocialController::class, 'redirectToGoogle']);
+// Route::get('auth/google/callback', [SocialController::class, 'handleGoogleCallback']);
+
+// Route::get('/login/{provider}', [AuthController::class,'redirectToProvider']);
+// Route::get('/login/{provider}/callback', [AuthController::class,'handleProviderCallback']);

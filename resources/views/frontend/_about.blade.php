@@ -15,7 +15,10 @@
             
             <div class="col-lg-6 pt-4 pt-lg-0">
               {!!$about->description2!!}
+              <a href="{{route('about-us')}}" class="btn-learn-more">Read More</a>
             </div>
+            
+          
           </div>
   
         </div>
