@@ -58,8 +58,8 @@ class HeroController extends Controller
 
         if($request->hasFile('image')){
             
-            $fileName = "hero_".'_'.date('Y-m-d').'_'.rand(10,100000).'.'.$request->image->extension();
-            
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
+           
             $image = $request->file('image');
             $img = ImageManagerStatic::make($image);
             $img->resize(200, 200);
@@ -116,7 +116,7 @@ class HeroController extends Controller
                 \Storage::delete('/public/hero/'.$oldFile);
                 \Storage::delete('/public/hero/thumbnails/'.$oldFile);
             }
-            $fileName = $request->photo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
             $image = $request->file('photo');
             $img = ImageManagerStatic::make($image);
             $img->resize(200, 200);

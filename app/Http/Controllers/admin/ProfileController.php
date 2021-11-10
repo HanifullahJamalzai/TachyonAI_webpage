@@ -56,7 +56,7 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|min:8|max:255|confirmed',
-            'phone' => 'min:9|max:12',
+            'phone' => 'integer|min:9|max:12',
         ]);
 
         $request->merge(['slug' => Str::slug($request->email)]);

@@ -62,7 +62,7 @@ class PortfolioDetailController extends Controller
         $input = $request->all();
 
         if($request->hasFile('photo')){
-            $fileName = $request->photo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
             
             $image = $request->file('photo');
             $img = ImageManagerStatic::make($image);
@@ -122,7 +122,7 @@ class PortfolioDetailController extends Controller
                 \Storage::delete('/public/portfolio/'.$oldFile);
                 \Storage::delete('/public/portfolio/thumbnails/'.$oldFile);
             }
-            $fileName = $request->photo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
             
             $image = $request->file('photo');
             $img = ImageManagerStatic::make($image);

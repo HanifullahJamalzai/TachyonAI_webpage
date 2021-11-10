@@ -60,7 +60,7 @@ class ClientController extends Controller
         $input = $request->all();
         
         if($request->hasFile('logo')){
-            $fileName = $request->logo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->logo->getClientOriginalName();
             
             $image = $request->file('logo');
             $img = ImageManagerStatic::make($image);
@@ -124,7 +124,7 @@ class ClientController extends Controller
                 \Storage::delete('/public/client/'.$oldfile);
                 \Storage::delete('/public/client/thumbnails/'.$oldfile);
             }
-            $fileName = $request->logo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->logo->getClientOriginalName();
 
             $image = $request->file('logo');
             $img = ImageManagerStatic::make($image);

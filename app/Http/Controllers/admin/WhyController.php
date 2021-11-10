@@ -53,7 +53,7 @@ class WhyController extends Controller
         $input = $request->all();
 
         if($request->hasFile('photo')){
-            $fileName = $request->photo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
             
             $image = $request->file('photo');
             $img = ImageManagerStatic::make($image);
@@ -110,7 +110,7 @@ class WhyController extends Controller
                 \Storage::delete('/public/whyUs/thumbnails/'.$oldFile);
             }
             
-            $fileName = $request->photo->getClientOriginalName();
+            $fileName = rand(10, 10000).'_'.$request->photo->getClientOriginalName();
 
             $image = $request->file('photo');
             $img = ImageManagerStatic::make($image);
