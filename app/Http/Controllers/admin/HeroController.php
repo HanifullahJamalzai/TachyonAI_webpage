@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Facades\Image;
 
+use App\Models\Inbox;
 class HeroController extends Controller
 {
     public function __construct()
@@ -29,6 +30,7 @@ class HeroController extends Controller
     {
         return view('admin.hero.index')
                     ->with('hero', Hero::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Hero');
     }
 

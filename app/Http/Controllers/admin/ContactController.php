@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Contact;
 use Session;
 
+use App\Models\Inbox;
 class ContactController extends Controller
 {
     
@@ -26,6 +27,7 @@ class ContactController extends Controller
     {
         return view('admin.contact.index')
                     ->with('contact', Contact::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Contact');
     }
 

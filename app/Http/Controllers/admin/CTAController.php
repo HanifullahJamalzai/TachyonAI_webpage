@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CTA;
 use Session;
+
+use App\Models\Inbox;
 class CTAController extends Controller
 {
 
@@ -24,6 +26,7 @@ class CTAController extends Controller
 
         return view('admin.cta.index')
                     ->with('cta', CTA::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'CTA');
     }
 

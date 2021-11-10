@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Facades\Image;
 
+
+use App\Models\Inbox;
 class SkillController extends Controller
 {
     public function __construct()
@@ -29,6 +31,7 @@ class SkillController extends Controller
     {
         return view('admin.skill.index')
                     ->with('skill', Skill::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Skill');
     }
 

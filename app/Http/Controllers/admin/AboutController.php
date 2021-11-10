@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\About;
 use Session;
 
+
+use App\Models\Inbox;
 class AboutController extends Controller
 {
     
@@ -27,6 +29,7 @@ class AboutController extends Controller
 
         return view('admin.about.index')
                     ->with('about', About::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'About');
     }
 

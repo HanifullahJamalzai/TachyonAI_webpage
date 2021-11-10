@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Team;
 use Session;
 
+use App\Models\Inbox;
 class TeamController extends Controller
 {
     public function __construct()
@@ -24,6 +25,7 @@ class TeamController extends Controller
 
         return view('admin.team.index')
                     ->with('team', Team::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Team');
     }
 

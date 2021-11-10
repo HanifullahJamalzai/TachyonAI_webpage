@@ -15,6 +15,7 @@ use Intervention\Image\Facades\Image;
 
 use App\Http\Requests\TeamRequest;
 
+use App\Models\Inbox;
 class TeamDetailController extends Controller
 {
     public function __construct()
@@ -31,6 +32,7 @@ class TeamDetailController extends Controller
     {
         return view('admin.team.team')
                     ->with('members', TeamDetail::all())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Team');
     }
 

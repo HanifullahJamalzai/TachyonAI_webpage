@@ -21,7 +21,8 @@
                 <ul>
                   {!! $plan->description !!}
                 </ul>
-                <a href="{{route('stripe-payment.handleGet', $plan->price)}}" class="buy-btn">Get Started</a>
+                {{-- <a href="{{route('stripe-payment.handleGet', $plan->price)}}" class="buy-btn">Get Started</a> --}}
+                <a href="#" class="buy-btn">Get Started</a>
               </div>
             </div>
    

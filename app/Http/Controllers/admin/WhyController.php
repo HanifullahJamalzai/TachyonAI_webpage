@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Files;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Facades\Image;
 
+
+use App\Models\Inbox;
 class WhyController extends Controller
 {
     public function __construct()
@@ -29,6 +31,7 @@ class WhyController extends Controller
     {
         return view('admin.why.index')
                     ->with('why', WhyUs::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'WhyUs');
     }
 

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Service;
 use Session;
+
+use App\Models\Inbox;
 class ServiceController extends Controller
 {
     public function __construct()
@@ -23,6 +25,7 @@ class ServiceController extends Controller
     {
         return view('admin.service.index')
                     ->with('service', Service::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Service');
     }
 

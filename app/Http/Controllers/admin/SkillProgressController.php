@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Session;
 use Str;
 use App\Models\SkillProgress;
+
+use App\Models\Inbox;
 class SkillProgressController extends Controller
 {
     public function __construct()
@@ -23,6 +25,7 @@ class SkillProgressController extends Controller
     {
         return view('admin.skill.progress')
                     ->with('skills', SkillProgress::orderBy('created_at', 'asc')->get())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Skill-Progress');
     }
 

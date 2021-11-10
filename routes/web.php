@@ -87,13 +87,13 @@ Route::group(['prefix'=>'admin', 'middleware' => 'auth'], function(){
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
-Route::get('/stripe-payment/{price}', [App\Http\Controllers\HomeController::class, 'handleGet'])->name('stripe-payment.handleGet');
-Route::post('/stripe-payment', [App\Http\Controllers\HomeController::class, 'handlePost'])->name('stripe.payment');
+// Route::get('/about-us', [HomeController::class, 'about'])->name('about-us');
+// Route::get('/stripe-payment/{price}', [App\Http\Controllers\HomeController::class, 'handleGet'])->name('stripe-payment.handleGet');
+// Route::post('/stripe-payment', [App\Http\Controllers\HomeController::class, 'handlePost'])->name('stripe.payment');
 Route::post('/message', [HomeController::class, 'message'])->name('message');
 Route::post('/subscribe', [SubscribeController::class, 'subscribe'])->name('subscribe');
-Route::resource('/comment', CommentController::class);
-Route::resource('/reply', ReplyController::class);
+// Route::resource('/comment', CommentController::class);
+// Route::resource('/reply', ReplyController::class);
 
 
 // Route::get('auth/facebook', [SocialController::class, 'facebookRedirect']);

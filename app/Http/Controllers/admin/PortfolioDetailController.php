@@ -14,6 +14,9 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Facades\Image;
 
+
+use App\Models\Inbox;
+
 class PortfolioDetailController extends Controller
 {
     public function __construct()
@@ -31,6 +34,7 @@ class PortfolioDetailController extends Controller
     {
         return view('admin.portfolio.portfolio')
                     ->with('portfolios', PortfolioDetail::all())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Portfolio');
     }
 

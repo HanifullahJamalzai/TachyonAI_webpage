@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Session;
 use App\Models\Pricing;
 
+
+use App\Models\Inbox;
+
 class PricingController extends Controller
 {
     public function __construct()
@@ -24,6 +27,7 @@ class PricingController extends Controller
     {
         return view('admin.pricing.index')
                     ->with('pricing', Pricing::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Pricing');
     }
 

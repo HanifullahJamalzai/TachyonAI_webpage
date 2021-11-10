@@ -25,6 +25,7 @@ class InboxController extends Controller
         $this->authorize('isAdmin');
         return view('admin.box.index')
                     ->with('msgs', Inbox::orderBy('id', 'desc')->get())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Inbox');
     }
 

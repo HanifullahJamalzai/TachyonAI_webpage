@@ -9,6 +9,8 @@ use Str;
 use App\Http\Requests\PricingRequest;
 use Session;
 use App\Models\PricingDetail;
+
+use App\Models\Inbox;
 class PricingDetailController extends Controller
 {
     public function __construct()
@@ -26,6 +28,7 @@ class PricingDetailController extends Controller
     {
         return view('admin.pricing.pricing')
                     ->with('plans', PricingDetail::all())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Pricing');
     }
 

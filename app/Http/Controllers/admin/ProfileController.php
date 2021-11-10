@@ -11,6 +11,8 @@ use Str;
 use Session;
 use Gate;
 
+
+use App\Models\Inbox;
 class ProfileController extends Controller
 {
     public function __construct()
@@ -31,6 +33,7 @@ class ProfileController extends Controller
         return view('admin.profile.index')
                     ->with('users', User::orderBy('id', 'asc')->get())
                     ->with('profile', $user)
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Profile');
     }
 

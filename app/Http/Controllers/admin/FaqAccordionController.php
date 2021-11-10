@@ -10,6 +10,7 @@ use Session;
 use Str;
 use App\Http\Requests\FaqRequest;
 
+use App\Models\Inbox;
 class FaqAccordionController extends Controller
 {
 
@@ -27,6 +28,7 @@ class FaqAccordionController extends Controller
     {
         return view('admin.faq.faq')
                     ->with('faqs', FaqAccordion::all())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'FAQ');
     }
 

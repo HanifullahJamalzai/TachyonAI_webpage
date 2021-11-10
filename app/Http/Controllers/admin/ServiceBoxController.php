@@ -9,6 +9,7 @@ use App\Models\ServiceBox;
 use Session;
 use Illuminate\Support\Str;
 
+use App\Models\Inbox;
 class ServiceBoxController extends Controller
 {
     public function __construct()
@@ -26,6 +27,7 @@ class ServiceBoxController extends Controller
         
         return view('admin.service.box')
                     ->with('serviceboxes', ServiceBox::orderBy('id', 'asc')->get())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'Service-Box');
     }
 

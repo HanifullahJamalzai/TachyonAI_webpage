@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Faq;
 use Session;
+
+use App\Models\Inbox;
 class FAQController extends Controller
 {
     
@@ -24,6 +26,7 @@ class FAQController extends Controller
     {
         return view('admin.faq.index')
                     ->with('faq', Faq::findOrFail(1))
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page','FAQ');
     }
 

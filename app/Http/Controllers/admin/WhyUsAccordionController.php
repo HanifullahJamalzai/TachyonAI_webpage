@@ -9,6 +9,7 @@ use App\Models\WhyUsAccordion;
 use Session;
 use Str;
 
+use App\Models\Inbox;
 class WhyUsAccordionController extends Controller
 {
     public function __construct()
@@ -25,6 +26,7 @@ class WhyUsAccordionController extends Controller
     {
         return view('admin.why.accordion')
                     ->with('accordions', WhyUsAccordion::all())
+                    ->with('msg_notification', Inbox::where('status', 0)->count())
                     ->with('page', 'WhyUsAccordion');
         
     }
