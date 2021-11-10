@@ -15,7 +15,7 @@ class TeamRequest extends FormRequest
     public function store()
     {
         return [
-            'full_name' => 'required|max:50',
+            'full_name' => 'required|max:50|regex:/^[a-zA-Z ]+$/',
             'position' => 'required|max:50',
             'bio' => 'required|max:256',
             'photo' => 'required|max:100',
@@ -25,7 +25,7 @@ class TeamRequest extends FormRequest
     public function update()
     {
         return [
-            'full_name' => 'required|max:50',
+            'full_name' => 'required|max:50|regex:/^[a-zA-Z ]+$/',
             'position' => 'required|max:50',
             'bio' => 'required|max:256',
         ];

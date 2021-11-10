@@ -53,10 +53,10 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
+            'name' => 'required|max:256|regex:/^[a-zA-Z ]+$/',
+            'email' => 'required|email|string|max:255|unique:users',
             'password' => 'required|min:8|max:255|confirmed',
-            'phone' => 'integer|min:9|max:12',
+            'phone' => 'min:9|max:12|regex:(^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$)',
         ]);
 
         $request->merge(['slug' => Str::slug($request->email)]);
@@ -102,9 +102,10 @@ class ProfileController extends Controller
     {
         $user = User::where('slug', $id)->first();
         $this->validate($request,[
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|email',
-            'phone' => 'min:9|max:12',
+            'name' => 'required|string|max:255|regex:/^[a-zA-Z ]+$/',
+            'email' => 'required|email|string|max:255|unique:users',
+            'phone' => 'min:9|max:12|regex:(^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$)',
+
         ]);
 
         $request->merge(['slug' => Str::slug($request->email)]);
