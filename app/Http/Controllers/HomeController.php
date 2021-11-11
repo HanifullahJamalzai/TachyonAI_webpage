@@ -79,21 +79,21 @@ class HomeController extends Controller
                     ->with('Page', 'TachyonAI');
 
     }
-    public function about()
-    {
-        return view('about-us')
-                    ->with('hero', Hero::findOrFail(1))
-                    ->with('contact', Contact::findOrFail(1))
-                    ->with('about', About::findOrFail(1))
-                    ->with('comments', Comment::orderBy('id', 'desc')->get())
-                    ->with('page', 'TachyonAI');
-    }
+    // public function about()
+    // {
+    //     return view('about-us')
+    //                 ->with('hero', Hero::findOrFail(1))
+    //                 ->with('contact', Contact::findOrFail(1))
+    //                 ->with('about', About::findOrFail(1))
+    //                 ->with('comments', Comment::orderBy('id', 'desc')->get())
+    //                 ->with('page', 'TachyonAI');
+    // }
 
     // message closure method
     public function message(request $request)
     {
         $request->validate([
-            'name'=>'required|max:255|min:3',
+            'name'=>'required|max:256|regex:/^[a-zA-Z ]+$/',
             'email'=>'required|max:255|min:10',
             'subject'=>'required|max:255|min:4',
             'message'=>'required|min:5'
@@ -104,7 +104,7 @@ class HomeController extends Controller
         Inbox::create($input);
 
         // Mail 
-        Mail::to($request->email)->send(new TestMail());
+        // Mail::to($request->email)->send(new TestMail());
 
         // SMS
         try {
@@ -113,13 +113,13 @@ class HomeController extends Controller
             $client = new \Nexmo\Client($basic);
   
             $receiverNumber = "+93779636360";
-            $message = "This is testing msg from Hanifullah Jamlzai and S/one has message you";
+            $message = "You have a msg in TachyonAI ";
   
-            $message = $client->message()->send([
-                'to' => $receiverNumber,
-                'from' => 'Vonage APIs',
-                'text' => $message
-            ]);
+            // $message = $client->message()->send([
+            //     'to' => $receiverNumber,
+            //     'from' => 'Vonage APIs',
+            //     'text' => $message
+            // ]);
 
             // Success msg and redirect   
             Session::flash('success', 'Hi! We wanted to let you know that we have received your message.We’ll get back to you as soon as we can.');
@@ -133,25 +133,25 @@ class HomeController extends Controller
     }
     
     // stripe payment
-    public function handleGet($price)
-    {
-        return view('stripe-payment')
-                    ->with('price',$price);
-    }
+    // public function handleGet($price)
+    // {
+    //     return view('stripe-payment')
+    //                 ->with('price',$price);
+    // }
 
-    public function handlePost(Request $request)
-    {   
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        Stripe\Charge::create ([
-                "amount" => 100 * 150,
-                "currency" => "inr",
-                "source" => $request->stripeToken,
-                "description" => "Making test payment." 
-        ]);
+    // public function handlePost(Request $request)
+    // {   
+    //     Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+    //     Stripe\Charge::create ([
+    //             "amount" => 100 * 150,
+    //             "currency" => "inr",
+    //             "source" => $request->stripeToken,
+    //             "description" => "Making test payment." 
+    //     ]);
   
-        Session::flash('success', 'Payment has been successfully processed.');
+    //     Session::flash('success', 'Payment has been successfully processed.');
           
-        return back();
+    //     return back();
 
-    }
+    // }
 }
